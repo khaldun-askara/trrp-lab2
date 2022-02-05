@@ -46,6 +46,7 @@ public class Main {
                                                     rs.getString(10),
                                                     rs.getInt(11)));
                 }
+                rs.close();
                 st.close();
             }
             catch (Exception e){
@@ -75,7 +76,7 @@ public class Main {
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+dbname, "postgres", "postgres");
-            System.out.println("connection " + dbname + " открыто");
+            //System.out.println("connection " + dbname + " открыто");
         }
         catch (Exception e){
             System.out.println("Ошибка открытия connection " + dbname + " " + e.getMessage());
@@ -86,7 +87,7 @@ public class Main {
         // закрытие бд
         try {
             connection.close();
-            System.out.println("connection закрыто");
+            connection.isClosed();
         }
         catch (Exception e){
             System.out.println("Ошибка закрытия connection " + e.getMessage());
@@ -98,8 +99,10 @@ public class Main {
         try {
             OpenConnection("");
             Statement st = connection.createStatement();
-            st.execute("DROP DATABASE bruh; CREATE DATABASE BRUH;");
+            st.execute("DROP DATABASE IF EXISTS BRUH; CREATE DATABASE BRUH;");
+            System.out.println("БД bruh создана.");
             st.close();
+            st.isClosed();
             CloseConnection();
         } catch (Exception e) {
             System.out.println("Ошибка при создании бд " + e.getMessage());
@@ -111,7 +114,9 @@ public class Main {
             Statement st = connection.createStatement();
             st.execute(new String(Files.readAllBytes(Paths.get(
                     "C:\\Users\\Aisen Sousuke\\OneDrive\\учебное дерьмо\\10 трим\\тррррррррррррррп\\lab 2\\lab2\\createNormalisedDatabaseScript.txt"))));
+            System.out.println("Таблицы созданы.");
             st.close();
+            st.isClosed();
             CloseConnection();
         } catch (IOException exception){
             System.out.println("Ошибка при чтении скрипта создания табличек " + exception.getMessage());
@@ -147,7 +152,9 @@ public class Main {
             st.setInt(15, line.cat_id);
             st.setInt(16, line.food_id);
             st.executeUpdate();
+            System.out.println("Добавлена строка " + line.toString());
             st.close();
+            st.isClosed();
             CloseConnection();
         } catch (Exception e){
             System.out.println("Ошибка при записи строки " + line.toString() + " " + e.getMessage());
