@@ -1,0 +1,41 @@
+CREATE SCHEMA IF NOT EXISTS public;
+
+CREATE TABLE public.breed (
+id serial NOT NULL CONSTRAINT breed_pk PRIMARY KEY,
+name text NOT NULL);
+
+CREATE TABLE public.cat (
+id serial NOT NULL CONSTRAINT cat_pk PRIMARY KEY,
+name text NOT NULL,
+color text NOT NULL,
+breed_id int NOT NULL CONSTRAINT cat_breed_id_fk REFERENCES breed (id));
+
+CREATE TABLE public.place (
+id serial NOT NULL CONSTRAINT place_pk PRIMARY KEY,
+name text NOT NULL,
+type text NOT NULL);
+
+CREATE TABLE public.food (
+id serial NOT NULL CONSTRAINT food_pk PRIMARY KEY,
+name text NOT NULL,
+price int NOT NULL);
+
+CREATE TABLE public.cat_places (
+cat_id int NOT NULL
+CONSTRAINT cat_places_cat_id_fk
+REFERENCES cat,
+place_id int NOT null
+CONSTRAINT cat_places_place_id_fk
+REFERENCES place,
+CONSTRAINT cat_places_pk
+unique (cat_id, place_id));
+
+CREATE TABLE public.taste_preferences (
+cat_id int NOT NULL
+CONSTRAINT taste_preferences_cat_id_fk
+REFERENCES cat,
+food_id int NOT null
+CONSTRAINT taste_preferences_food_id_fk
+REFERENCES food,
+CONSTRAINT taste_preferences_pk
+unique (cat_id, food_id));

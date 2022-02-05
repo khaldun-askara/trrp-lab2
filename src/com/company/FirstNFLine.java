@@ -4,6 +4,7 @@ public class FirstNFLine {
     public int cat_id;
     public String cat_name;
     public String color;
+    public int breed_id;
     public String breed;
     public int place_id;
     public String place_name;
@@ -11,9 +12,8 @@ public class FirstNFLine {
     public int food_id;
     public String food_name;
     public int price;
-    public int breed_id;
 
-    public FirstNFLine(int cat_id, String cat_name, String color, String breed, int place_id, String place_name, String type, int food_id, String food_name, int price, int breed_id)
+    public FirstNFLine(int cat_id, String cat_name, String color, int breed_id, String breed, int place_id, String place_name, String type, int food_id, String food_name, int price)
     {
         this.cat_id = cat_id;
         this.cat_name = cat_name;
