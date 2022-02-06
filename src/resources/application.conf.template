@@ -1,7 +1,3 @@
-consoleRssServer {
-    address: "string"
-}
-
 messageQueueServer {
     host: "string"
     port: "int | 5672"
@@ -9,7 +5,7 @@ messageQueueServer {
     password: "string"
 }
 
-cacheServer {
+socketServer {
     host: "string"
     port: "int"
 }

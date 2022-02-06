@@ -14,7 +14,12 @@ public class Main {
         // открытие бд
         try {
             Class.forName("org.sqlite.JDBC");
-            co = DriverManager.getConnection ("jdbc:sqlite:C:\\Users\\Aisen Sousuke\\OneDrive\\учебное дерьмо\\10 трим\\тррррррррррррррп\\lab 2\\lab2\\cats_food_and places.sqlite");
+            String url = "";
+            if (System.getenv("COMPUTERNAME") == "KHALDUNPC")
+                url = "jdbc:sqlite:C:\\Users\\Aisen Sousuke\\OneDrive\\учебное дерьмо\\10 трим\\тррррррррррррррп\\lab 2\\lab2\\cats_food_and places.sqlite";
+            if (System.getenv("COMPUTERNAME") == "DESKTOP-NE2BQHU")
+                url = "jdbc:sqlite:C:\\Users\\khaldun\\OneDrive\\учебное дерьмо\\10 трим\\тррррррррррррррп\\lab 2\\lab 2 but on another computer hahahah\\trrp-lab2\\cats_food_and places.sqlite";
+            co = DriverManager.getConnection (url);
             System.out.println("cats_food_and places.sqlite открыта");
             // чтение из бд и построчная отправка
             try{
@@ -68,7 +73,6 @@ public class Main {
     public static void consoleLineSender(FirstNFLine line){
         System.out.println(line.toString());
     }
-
 
     public static Connection connection;
 
@@ -151,10 +155,11 @@ public class Main {
             st.setInt(14, line.place_id);
             st.setInt(15, line.cat_id);
             st.setInt(16, line.food_id);
+            //System.out.println(st.isClosed());
             st.executeUpdate();
             System.out.println("Добавлена строка " + line.toString());
-            st.close();
-            st.isClosed();
+//            st.close();
+//            st.isClosed();
             CloseConnection();
         } catch (Exception e){
             System.out.println("Ошибка при записи строки " + line.toString() + " " + e.getMessage());
@@ -162,9 +167,10 @@ public class Main {
     }
 
     public static void main(String[] args) {
-
         CreateDBWithTables();
+        //OpenConnection("bruh");
         Read1NF(Main::PrintToPostgreSQL);
+//        CloseConnection();
 //        if (args != null)
 //            if (args[0].equals("1"))
 //                System.out.println("сокеты");

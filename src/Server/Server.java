@@ -15,10 +15,9 @@ import static com.company.Main.Read1NF;
 
 public class Server implements Runnable{
 //    private final Channel mqChannel;
-//    private final AppConfig appConfig;
+    private static AppConfig appConfig = AppConfig.load();
 
     public Server() throws IOException, TimeoutException {
-//        appConfig = AppConfig.load();
 //        AppConfig.MessageQueueServer messageQueueServer = appConfig.messageQueueServer;
 //        ConnectionFactory factory = new ConnectionFactory();
 //        factory.setHost(messageQueueServer.host);
@@ -39,7 +38,7 @@ public class Server implements Runnable{
     }
 
     private static void SendLine(FirstNFLine line){
-        try (Socket socket = new Socket("localhost", 25836);
+        try (Socket socket = new Socket(appConfig.socketServer.host, appConfig.socketServer.port);
              ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream())) {
             oos.writeObject(line);
             oos.flush();

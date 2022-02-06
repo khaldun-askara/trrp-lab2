@@ -7,28 +7,19 @@ import com.typesafe.config.ConfigFactory;
 import java.io.File;
 
 public class AppConfig {
-    public final CacheServer cacheServer;
-    public final ConsoleRssServer consoleRssServer;
+    public final SocketServer socketServer;
     public final MessageQueueServer messageQueueServer;
 
     public AppConfig(com.typesafe.config.Config c) {
         final $TsCfgValidator $tsCfgValidator = new $TsCfgValidator();
         final String parentPath = "";
-        this.cacheServer =
-                c.hasPathOrNull("cacheServer")
-                        ? new CacheServer(
-                        c.getConfig("cacheServer"), parentPath + "cacheServer.", $tsCfgValidator)
-                        : new CacheServer(
-                        com.typesafe.config.ConfigFactory.parseString("cacheServer{}"),
-                        parentPath + "cacheServer.",
-                        $tsCfgValidator);
-        this.consoleRssServer =
-                c.hasPathOrNull("consoleRssServer")
-                        ? new ConsoleRssServer(
-                        c.getConfig("consoleRssServer"), parentPath + "consoleRssServer.", $tsCfgValidator)
-                        : new ConsoleRssServer(
-                        com.typesafe.config.ConfigFactory.parseString("consoleRssServer{}"),
-                        parentPath + "consoleRssServer.",
+        this.socketServer =
+                c.hasPathOrNull("socketServer")
+                        ? new SocketServer(
+                        c.getConfig("socketServer"), parentPath + "socketServer.", $tsCfgValidator)
+                        : new SocketServer(
+                        com.typesafe.config.ConfigFactory.parseString("socketServer{}"),
+                        parentPath + "socketServer.",
                         $tsCfgValidator);
         this.messageQueueServer =
                 c.hasPathOrNull("messageQueueServer")
@@ -48,11 +39,11 @@ public class AppConfig {
         return new AppConfig(config);
     }
 
-    public static class CacheServer {
+    public static class SocketServer {
         public final String host;
         public final int port;
 
-        public CacheServer(
+        public SocketServer(
                 com.typesafe.config.Config c,
                 String parentPath,
                 $TsCfgValidator $tsCfgValidator) {
@@ -72,31 +63,6 @@ public class AppConfig {
                 $tsCfgValidator.addBadPath(parentPath + path, e);
                 return 0;
             }
-        }
-
-        private static String $_reqStr(
-                String parentPath,
-                com.typesafe.config.Config c,
-                String path,
-                $TsCfgValidator $tsCfgValidator) {
-            if (c == null) return null;
-            try {
-                return c.getString(path);
-            } catch (com.typesafe.config.ConfigException e) {
-                $tsCfgValidator.addBadPath(parentPath + path, e);
-                return null;
-            }
-        }
-    }
-
-    public static class ConsoleRssServer {
-        public final String address;
-
-        public ConsoleRssServer(
-                com.typesafe.config.Config c,
-                String parentPath,
-                $TsCfgValidator $tsCfgValidator) {
-            this.address = $_reqStr(parentPath, c, "address", $tsCfgValidator);
         }
 
         private static String $_reqStr(

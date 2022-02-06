@@ -1,6 +1,7 @@
 package Client;
 
 import Server.Server;
+import com.company.AppConfig;
 import com.company.FirstNFLine;
 
 import java.io.IOException;
@@ -12,33 +13,45 @@ import java.net.Socket;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static com.company.Main.CreateDBWithTables;
-import static com.company.Main.PrintToPostgreSQL;
+import static com.company.Main.*;
 
 public class Client implements Runnable{
+    private int socketOrRMQ;
+    private final AppConfig appConfig;
+    public Client(){
+        appConfig = AppConfig.load();
+    }
+    public Client(int socketOrRMQ){
+        appConfig = AppConfig.load();
+        this.socketOrRMQ = socketOrRMQ;
+    }
+
     public static void main(String[] args) throws IOException, TimeoutException {
         CreateDBWithTables();
-        new Client().run();
+        new Client(Integer.valueOf((String)args[0])).run();
     }
 
     @Override
     public void run() {
-        try (ServerSocket serverSocket = new ServerSocket(
-                25836, 50, InetAddress.getByName("localhost"))) {
-            System.out.printf("Running client");
-            ExecutorService pool = Executors.newCachedThreadPool();
-            try {
-                while (true) {
-                    Socket socket = serverSocket.accept();
-                    pool.execute(() -> handleConnection(socket));
+        if (socketOrRMQ == 1){
+            try (ServerSocket serverSocket = new ServerSocket(
+                    appConfig.socketServer.port, 50, InetAddress.getByName(appConfig.socketServer.host))) {
+                System.out.printf("Running client");
+                ExecutorService pool = Executors.newCachedThreadPool();
+                try {
+                    while (true) {
+                        Socket socket = serverSocket.accept();
+                        pool.execute(() -> handleConnection(socket));
+                    }
+                } finally {
+                    pool.shutdown();
                 }
-            } finally {
-                pool.shutdown();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
