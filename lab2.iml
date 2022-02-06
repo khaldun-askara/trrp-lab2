@@ -12,5 +12,6 @@
     <orderEntry type="library" name="postgresql-42.3.2" level="project" />
     <orderEntry type="library" name="typesafe.config" level="project" />
     <orderEntry type="library" name="rabbitmq.amqp.client" level="project" />
+    <orderEntry type="library" name="apache.commons.lang3" level="project" />
   </component>
 </module>

@@ -158,8 +158,8 @@ public class Main {
             //System.out.println(st.isClosed());
             st.executeUpdate();
             System.out.println("Добавлена строка " + line.toString());
-//            st.close();
-//            st.isClosed();
+            st.close();
+            st.isClosed();
             CloseConnection();
         } catch (Exception e){
             System.out.println("Ошибка при записи строки " + line.toString() + " " + e.getMessage());
@@ -168,14 +168,6 @@ public class Main {
 
     public static void main(String[] args) {
         CreateDBWithTables();
-        //OpenConnection("bruh");
         Read1NF(Main::PrintToPostgreSQL);
-//        CloseConnection();
-//        if (args != null)
-//            if (args[0].equals("1"))
-//                System.out.println("сокеты");
-//            else if (args[0].equals("2"))
-//                System.out.println("очередь сообщений");
-//            else Read1NF(Main::consoleLineSender);
     }
 }

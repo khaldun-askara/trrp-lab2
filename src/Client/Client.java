@@ -1,22 +1,26 @@
 package Client;
 
-import Server.Server;
 import com.company.AppConfig;
 import com.company.FirstNFLine;
 
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.DeliverCallback;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Set;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.apache.commons.lang3.SerializationUtils;
 
-import static com.company.Main.*;
+import static com.company.Main.CreateDBWithTables;
+import static com.company.Main.PrintToPostgreSQL;
 
 public class Client implements Runnable{
     private int socketOrRMQ;
@@ -50,6 +54,27 @@ public class Client implements Runnable{
                     pool.shutdown();
                 }
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (socketOrRMQ == 2){
+            ConnectionFactory factory = new ConnectionFactory();
+            factory.setHost(appConfig.messageQueueServer.host);
+            factory.setPort(appConfig.messageQueueServer.port);
+            factory.setUsername(appConfig.messageQueueServer.username);
+            factory.setPassword(appConfig.messageQueueServer.password);
+            try{
+                Connection connection = factory.newConnection();
+                Channel channel = connection.createChannel();
+
+                channel.queueDeclare("hello", false, false, false, null);
+
+                DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+                    FirstNFLine line = (FirstNFLine) SerializationUtils.deserialize(delivery.getBody());
+                    PrintToPostgreSQL(line);
+                };
+                channel.basicConsume("hello", true, deliverCallback, consumerTag -> { });
+            } catch (Exception e){
                 e.printStackTrace();
             }
         }
