@@ -125,7 +125,7 @@ public class Main {
         }
     }
 
-    public static void PrintToPostgress(FirstNFLine line) {
+    public static void PrintToPostgreSQL(FirstNFLine line) {
         try {
             OpenConnection("bruh");
             PreparedStatement st = connection.prepareStatement("""
@@ -164,7 +164,7 @@ public class Main {
     public static void main(String[] args) {
 
         CreateDBWithTables();
-        Read1NF(Main::PrintToPostgress);
+        Read1NF(Main::PrintToPostgreSQL);
 //        if (args != null)
 //            if (args[0].equals("1"))
 //                System.out.println("сокеты");

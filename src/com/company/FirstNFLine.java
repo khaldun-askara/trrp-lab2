@@ -1,6 +1,8 @@
 package com.company;
 
-public class FirstNFLine {
+import java.io.Serializable;
+
+public class FirstNFLine implements Serializable {
     public int cat_id;
     public String cat_name;
     public String color;

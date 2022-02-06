@@ -9,5 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="sqlite-jdbc-3.32.3.2" level="project" />
     <orderEntry type="library" name="postgresql-42.3.2" level="project" />
+    <orderEntry type="library" name="typesafe.config" level="project" />
+    <orderEntry type="library" name="rabbitmq.amqp.client" level="project" />
   </component>
 </module>
