@@ -1,0 +1,11 @@
+messageQueueServer {
+    host: "string"
+    port: "int | 5672"
+    username: "string"
+    password: "string"
+}
+
+socketServer {
+    host: "string"
+    port: "int"
+}

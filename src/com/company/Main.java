@@ -15,9 +15,9 @@ public class Main {
         try {
             Class.forName("org.sqlite.JDBC");
             String url = "";
-            if (System.getenv("COMPUTERNAME") == "KHALDUNPC")
+            if (System.getenv("COMPUTERNAME").equals("KHALDUNPC"))
                 url = "jdbc:sqlite:C:\\Users\\Aisen Sousuke\\OneDrive\\учебное дерьмо\\10 трим\\тррррррррррррррп\\lab 2\\lab2\\cats_food_and places.sqlite";
-            if (System.getenv("COMPUTERNAME") == "DESKTOP-NE2BQHU")
+            if (System.getenv("COMPUTERNAME").equals("DESKTOP-NE2BQHU"))
                 url = "jdbc:sqlite:C:\\Users\\khaldun\\OneDrive\\учебное дерьмо\\10 трим\\тррррррррррррррп\\lab 2\\lab 2 but on another computer hahahah\\trrp-lab2\\cats_food_and places.sqlite";
             co = DriverManager.getConnection (url);
             System.out.println("cats_food_and places.sqlite открыта");
