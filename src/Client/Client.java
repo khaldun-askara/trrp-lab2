@@ -2,22 +2,20 @@ package Client;
 
 import com.company.AppConfig;
 import com.company.FirstNFLine;
-
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
+import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
-import org.apache.commons.lang3.SerializationUtils;
 
 import static com.company.Main.CreateDBWithTables;
 import static com.company.Main.PrintToPostgreSQL;
